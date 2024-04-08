@@ -2,5 +2,5 @@
 
 public interface IWordChainGenerator
 {
-    List<string> Generate(string source, string target);
+    IGenerateResult Generate(string source, string target);
 }

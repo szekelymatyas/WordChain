@@ -8,10 +8,10 @@ public class WordChainGenerator(
 {
     private WordsGraph? _wordsGraph = null;
 
-    public List<string> Generate(string source, string target)
+    public IGenerateResult Generate(string source, string target)
     {
         _wordsGraph ??= wordsGraphFactory.Create(words.GetWords());
 
-        return pathFindAlgorithm.Generate(_wordsGraph, source, target).Select(x => x.Word).ToList();
+        return pathFindAlgorithm.Generate(_wordsGraph, source, target);
     }
 }

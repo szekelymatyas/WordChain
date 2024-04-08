@@ -1,27 +1,46 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Diagnostics.Metrics;
 using WordChain;
-using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WordChain.Backend;
-public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction) : IPathFindAlgorithm
-{
-    public List<Node> Generate(WordsGraph wordsGraph, string source, string target)
-    {
 
-        if( !wordsGraph.Nodes.TryGetValue(source, out var sourceNode)){
-            return [];
-        }
-        if (!wordsGraph.Nodes.TryGetValue(target, out var targetNode))
+public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction)
+    : IPathFindAlgorithm
+{
+    public IGenerateResult Generate(WordsGraph wordsGraph, string source, string target)
+    {
+        wordsGraph.Nodes.TryGetValue(source, out var sourceNode);
+        wordsGraph.Nodes.TryGetValue(target, out var targetNode);
+        if (sourceNode is null || targetNode is null)
         {
-            return [];
+            var message = (sourceNode, targetNode) switch
+            {
+                (null, null) => "The source and target words do not exist in the graph",
+                (null, _) => "The source word do not exist in the graph",
+                (_, null) => "The target word do not exist in the graph",
+            };
+
+            return new Failed() { Message = message };
         }
         if (sourceNode.GroupId != targetNode.GroupId)
         {
-            return [];
+            return new Failed()
+            {
+                Message = $"No path found from source {source} to target {target}"
+            };
         }
 
-        return A_Star(sourceNode, targetNode);
+        var result = A_Star(sourceNode, targetNode);
 
+        if (result is [])
+        {
+            return new Failed()
+            {
+                Message = $"No path found from source {source} to target {target}"
+            };
+        }
+
+        return new Success() { Path = result };
     }
 
     public List<Node> ReconstructPath(Dictionary<Node, Node> cameFrom, Node current)
@@ -39,7 +58,6 @@ public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction
     // h is the heuristic function. h(n) estimates the cost to reach goal from node n.
     List<Node> A_Star(Node start, Node goal)
     {
-
         // The set of discovered nodes that may need to be (re-)expanded.
         // Initially, only the start node is known.
         // This is usually implemented as a min-heap or priority queue rather than a hash-set.
@@ -62,7 +80,6 @@ public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction
 
         while (openSet.TryDequeue(out var current, out int priority))
         {
-
             // This operation can occur in O(Log(N)) time if openSet is a min-heap or a priority queue
             if (current == goal)
                 return ReconstructPath(cameFrom, current);
@@ -73,8 +90,6 @@ public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction
                 //for each neighbor of current
                 //tentative_gScore is the distance from start to the neighbor through current
                 var tentative_gScore = gScore[current] + weighted;
-
-
 
                 if (!gScore.ContainsKey(neighbor) || tentative_gScore < gScore[neighbor])
                 {
@@ -87,12 +102,8 @@ public class AStarPathFindAlgorithm(IHeuristicCostFunction heuristicCostFunction
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentative_gScore;
                     fScore[neighbor] = tentative_gScore + dist;
-     
                 }
-
             }
-
-
         }
         // Open set is empty but goal was never reached
         return [];

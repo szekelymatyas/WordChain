@@ -1,6 +1,18 @@
 ﻿namespace WordChain.Backend;
 
+public interface IGenerateResult { }
+
+public class Failed : IGenerateResult
+{
+    public required string Message { get; init; }
+}
+
+public class Success : IGenerateResult
+{
+    public required List<Node> Path { get; init; }
+}
+
 public interface IPathFindAlgorithm
 {
-    List<Node> Generate(WordsGraph wordsGraph, string source, string target);
+    IGenerateResult Generate(WordsGraph wordsGraph, string source, string target);
 }

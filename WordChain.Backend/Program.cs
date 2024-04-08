@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WordChain.Backend;
 
@@ -37,7 +38,17 @@ app.MapPost(
             var value = graph.GetValue();
             var res = generator.Generate(value, request.Source, request.Target);
 
-            return Results.Ok(res.Select(x => x.Word));
+            if (res is Failed failed)
+            {
+                return Results.BadRequest(failed.Message);
+            }
+
+            if (res is not Success s)
+            {
+                throw new UnreachableException("If source is not failed than it should be success");
+            }
+
+            return Results.Ok(s.Path.Select(x => x.Word));
         }
     )
     .WithName("PostWordChain")

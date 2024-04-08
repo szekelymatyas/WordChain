@@ -7,39 +7,33 @@ import Form from './Form';
 function App() {
   const [state, setState] = useState<{ source: string; target: string, chain: string[] | null, error: any }>({ source: '', target: '', chain: null, error: null });
 
-  const handleSubmit = (pair: { source: string; target: string }) => {
+  const handleSubmit = async (pair: { source: string; target: string }) => {
     let url = `https://${process.env.REACT_APP_API_URL}/wordchain`;
-    fetch(url, {
+    let response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(pair)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
+    });
+    if (response.status === 400) {
+      let text = await response.json();
+      setState({ ...state, error: text, chain: null });
+      return
+    }
 
-        setState({ ...state, error: null, chain: data });
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        setState({ ...state, error: error.message, chain: null });
-        console.error('Error:', error);
-      });
-
-    setState({ ...state, chain: null });
+    if (!response.ok) {
+      setState({ ...state, error: "Something went wrong!", chain: null });
+    }
+    let data = await response.json();
+    setState({ ...state, error: null, chain: data });
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Wordchain</h1>
+        <h1>Word chain</h1>
         <Form onSubmit={handleSubmit} />
         <ul>
           {state.chain?.map((word) => (
