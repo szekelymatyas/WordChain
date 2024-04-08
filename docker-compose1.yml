@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./WordChain.Backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./wordchain-frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:80"

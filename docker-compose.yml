@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  wordchain.backend:
+    image: ${DOCKER_REGISTRY-}wordchainbackend
+    build:
+      context: .
+      dockerfile: WordChain.Backend/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+  wordchain.frontend:
+    image: ${DOCKER_REGISTRY-}wordchainfrontend
+    build:
+      context: ./wordchain-frontend
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - .:/app
+    ports:
+      - "3000:80"
+    environment:
+      - WATCHPACK_POLLING=true
+      - REACT_APP_API_URL=wordchain.backend:8081
+    depends_on:
+      - wordchain.backend
+    links:
+      - wordchain.backend

@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordChain", "WordChain\WordChain.csproj", "{C75B61A5-43A6-4069-AD91-C343710CB888}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordChain.Backend", "WordChain.Backend\WordChain.Backend.csproj", "{5351C238-2FA5-489F-9EAC-BB204D497F56}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{06FA5A57-F2CE-4BAE-8819-9D9CBAE90795}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordChain.Test", "WordChain.Test\WordChain.Test.csproj", "{F7FB1157-8893-48A8-9A0A-7F148DFDDFB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C75B61A5-43A6-4069-AD91-C343710CB888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C75B61A5-43A6-4069-AD91-C343710CB888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C75B61A5-43A6-4069-AD91-C343710CB888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C75B61A5-43A6-4069-AD91-C343710CB888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5351C238-2FA5-489F-9EAC-BB204D497F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5351C238-2FA5-489F-9EAC-BB204D497F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5351C238-2FA5-489F-9EAC-BB204D497F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5351C238-2FA5-489F-9EAC-BB204D497F56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06FA5A57-F2CE-4BAE-8819-9D9CBAE90795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06FA5A57-F2CE-4BAE-8819-9D9CBAE90795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06FA5A57-F2CE-4BAE-8819-9D9CBAE90795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06FA5A57-F2CE-4BAE-8819-9D9CBAE90795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7FB1157-8893-48A8-9A0A-7F148DFDDFB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7FB1157-8893-48A8-9A0A-7F148DFDDFB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7FB1157-8893-48A8-9A0A-7F148DFDDFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7FB1157-8893-48A8-9A0A-7F148DFDDFB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

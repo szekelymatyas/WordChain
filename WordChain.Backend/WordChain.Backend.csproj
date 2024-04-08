@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	  <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>966ed314-4726-4721-bec5-13081f23323a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
